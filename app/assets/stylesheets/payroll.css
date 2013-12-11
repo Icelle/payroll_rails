@@ -1,0 +1,13 @@
+.owner {
+  font-size: large;
+  background: yellow;
+}
+
+.salesperson {
+  color: green;
+  font-weight: bold;
+}
+
+.highlight {
+  background: yellow;
+}
