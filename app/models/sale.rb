@@ -23,4 +23,12 @@ class Sale
     end
     sales_data
   end
+
+  def commission_due
+    if (@employee.instance_of?(CommissionSalesPerson))
+      return @employee.commission_rate*@gross_sale_value
+    else
+      return 0.0
+    end
+  end
 end
