@@ -1,8 +1,10 @@
 require_relative 'employee.rb'
 
 class CommissionSalesPerson < Employee
+  attr_accessor :sales
+  attr_reader :commission_rate
 
-  def initialize(last_name, first_name, position, base_salary, commission_rate, gross_sale_value)
+  def initialize(last_name, first_name, position, base_salary, commission_rate, gross_sale_value, sales)
     @last_name          = last_name
     @first_name         = first_name
     @position           = position
@@ -10,6 +12,7 @@ class CommissionSalesPerson < Employee
     @tax_rate           = 0.3
     @commission_rate    = commission_rate
     @gross_sale_value   = gross_sale_value
+    @sales              = sales
   end
 
   def gross_salary
