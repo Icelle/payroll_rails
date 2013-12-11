@@ -1,5 +1,8 @@
 require 'csv'
 class Employee
+
+  attr_reader :last_name, :first_name, :position, :base_salary
+
   def initialize(last_name, first_name, position, base_salary)
     @last_name   = last_name
     @first_name  = first_name
@@ -8,8 +11,8 @@ class Employee
     @tax_rate    = 0.3
   end
 
-  def self.load(filename = './assets/employees.csv')
-    sales = Sale.load
+  def self.load(filename = './assets/employees.csv', sales_filename = './assets/sales_data.csv')
+    sales = Sale.load(sales_filename)
     employee_info = []
     csv_table = CSV.table(filename).to_a
     csv_table.delete_at(0)
@@ -25,19 +28,25 @@ class Employee
       owner_sales_target = row[8]
       case position
       when 'commission'
+        employee_sales = nil
         if sales.key?(last_name)
           gross_sale_value = sales[last_name].reduce(0) {|gross, sale| gross + sale.gross_sale_value}
+          employee_sales = sales[last_name]
         else
           gross_sale_value = 0
         end
-        employee = CommissionSalesPerson.new(last_name, first_name, position, base_salary, commission_rate, gross_sale_value)
+        employee = CommissionSalesPerson.new(last_name, first_name, position, base_salary, commission_rate, gross_sale_value, employee_sales)
+        employee.set_sales!(employee_sales)
       when 'quota'
+        employee_sales = nil
         if sales.key?(last_name)
           gross_sale_value = sales[last_name].reduce(0) {|gross, sale| gross + sale.gross_sale_value}
+          employee_sales = sales[last_name]
         else
           gross_sale_value = 0
         end
-        employee = QuotaSalesPerson.new(last_name,first_name,position,base_salary,quota_bonus,quota_sales_target,gross_sale_value)
+        employee = QuotaSalesPerson.new(last_name,first_name,position,base_salary,quota_bonus,quota_sales_target,gross_sale_value, employee_sales)
+        employee.set_sales!(employee_sales)
       when 'owner'
         total_gross_sales = 0
         sales.each do |last_name, sales_array|
@@ -79,6 +88,18 @@ class Employee
 
   def bonus
     nil
+  end
+
+  def sales
+    nil
+  end
+
+  def set_sales!(sales)
+    if !self.sales.nil?
+      self.sales.each do |sale|
+        sale.employee = self
+      end
+    end
   end
 
 end
