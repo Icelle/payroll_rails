@@ -1,1 +1,32 @@
-<p>List your employees here</p>
+<!-- I can see each employee's first name, last name, title, gross salary, and net pay
+If the employee is an owner, their name is highlighted and in larger font
+If the employee is a salesperson, their name should be in a dark green font and in bold
+ -->
+<p>Employees</p>
+<table>
+<tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Title</th>
+    <th>Gross Salary</th>
+    <th>Net Pay</th>
+</tr>
+<% @employees.each do |employee| %>
+  <tr>
+    <% if employee.instance_of?(Owner)%>
+      <td class = "owner"><%= employee.first_name%></td>
+      <td class = "owner"><%= employee.last_name%></td>
+    <%elsif employee.instance_of?(CommissionSalesPerson) || employee.instance_of?(QuotaSalesPerson)%>
+      <td class = "salesperson"><%= employee.first_name%></td>
+      <td class = "salesperson"><%= employee.last_name%></td>
+    <% else %>
+      <td><%= employee.first_name%></td>
+      <td><%= employee.last_name%></td>
+    <%end%>
+    <td><%= employee.position%></td>
+    <td><%= employee.gross_salary%></td>
+    <td><%= employee.net_pay%></td>
+  </tr>
+<% end %>
+
+
