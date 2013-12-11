@@ -2,8 +2,13 @@ require 'csv'
 
 class Sale
   attr_reader :gross_sale_value
+
+  attr_accessor :employee
+
+
   def initialize(gross_sale_value)
     @gross_sale_value = gross_sale_value
+    @employee = nil
   end
 
   def self.load(filename = './assets/sales_data.csv')
