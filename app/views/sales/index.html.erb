@@ -1,1 +1,24 @@
-<p>List your sales here</p>
+<!-- I can see each sale amount as well as the first and last name of the salesperson
+If the salesperson is a commission based salesperson, I can also see the commission due to that salesperson
+If the sale was from Ricky Bobby, it should be highlighted -->
+
+<p>Sales</p>
+<table>
+<tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Gross Sale Value</th>
+    <th>Commission Due</th>
+</tr>
+<% @sales.each do |sale| %>
+  <% if (sale.employee.first_name == 'Ricky' && sale.employee.last_name=='Bobby') %>
+  <tr class='highlight'>
+  <% else %>
+  <tr>
+  <% end %>
+    <td><%= sale.employee.first_name%></td>
+    <td><%= sale.employee.last_name%></td>
+    <td><%= sale.gross_sale_value%></td>
+    <td><%= sale.commission_due%></td>
+  </tr>
+<% end %>
